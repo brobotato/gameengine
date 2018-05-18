@@ -19,7 +19,7 @@ def create_image(sprite_name):
     return pygame.image.load('resources/{0}.png'.format(sprite_name))
 
 
-block_dict = {filename[:-4]: create_image(filename[:-4]) for filename in os.listdir('resources')}
+block_dict = {filename[:-4]: create_image(filename[:-4]) for filename in os.listdir('resources') if filename[-4:]=='.png'}
 
 
 class GameState:
@@ -47,51 +47,65 @@ class GameState:
 
 
 class GameEngine:
+    states = []
+    run = False
+    display_width = 0
+    display_height = 0
+    game_display = None
+    clock = None
+    font = None
+	
+    @staticmethod
+    def __init__(width, height, caption):
+        GameEngine.states = []
+        GameEngine.run = True
 
-    def __init__(self, width, height, caption):
-        self.states = []
-        self.run = True
+        GameEngine.display_width = width
+        GameEngine.display_height = height
 
-        self.display_width = width
-        self.display_height = height
-
-        self.game_display = pygame.display.set_mode((self.display_width, self.display_height))
+        GameEngine.game_display = pygame.display.set_mode((GameEngine.display_width, GameEngine.display_height))
         pygame.display.set_caption(caption)
 
-        self.clock = pygame.time.Clock()
+        GameEngine.clock = pygame.time.Clock()
 
-        self.font = pygame.font.Font("resources/vgaoem.fon", 15)
-        self.black = (255, 255, 255)
+        GameEngine.font = pygame.font.Font("resources/vgaoem.fon", 15)
 
-    def change_state(self, state):
-        if not self.states:
-            self.states.append(state)
+    @staticmethod
+    def change_state(state):
+        if not GameEngine.states:
+            GameEngine.states.append(state)
         else:
-            self.states[-1] = state
+            GameEngine.states[-1] = state
 
-    def pause_state(self, state):
-        if not self.states:
+    @staticmethod
+    def pause_state(state):
+        if not GameEngine.states:
             pass
         else:
-            self.states.append(state)
+            GameEngine.states.append(state)
 
-    def resume_state(self):
-        if not self.states:
+    @staticmethod
+    def resume_state():
+        if not GameEngine.states:
             pass
         else:
-            self.states = self.states[:-1]
+            GameEngine.states = GameEngine.states[:-1]
 
-    def handle_events(self):
-        self.states[-1].handle_events()
+    @staticmethod
+    def handle_events():
+        GameEngine.states[-1].handle_events()
 
-    def update(self):
-        self.states[-1].update()
+    @staticmethod
+    def update():
+        GameEngine.states[-1].update()
 
-    def draw(self):
-        self.states[-1].draw()
+    @staticmethod
+    def draw():
+        GameEngine.states[-1].draw()
 
-    def running(self):
-        return self.run
+    @staticmethod
+    def running():
+        return GameEngine.run
 
     @staticmethod
     def quit():
@@ -99,7 +113,7 @@ class GameEngine:
         quit()
 
 
-game = GameEngine(800, 600, 'Asteroids')
+game = GameEngine(800, 600, 'Game Engine')
 
 while game.running():
     game.handle_events()
