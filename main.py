@@ -20,8 +20,8 @@ def create_image(sprite_name):
     return pygame.image.load('resources/{0}.png'.format(sprite_name))
 
 
-block_dict = {filename[:-4]: create_image(filename[:-4]) for filename in os.listdir('resources') if
-              filename[-4:] == '.png'}
+sprite_dict = {filename[:-4]: create_image(filename[:-4]) for filename in os.listdir('resources') if
+               filename[-4:] == '.png'}
 
 
 class GameState:
