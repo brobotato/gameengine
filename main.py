@@ -1,4 +1,5 @@
 import os
+
 import pygame
 
 pygame.init()
@@ -19,14 +20,15 @@ def create_image(sprite_name):
     return pygame.image.load('resources/{0}.png'.format(sprite_name))
 
 
-block_dict = {filename[:-4]: create_image(filename[:-4]) for filename in os.listdir('resources') if filename[-4:]=='.png'}
+block_dict = {filename[:-4]: create_image(filename[:-4]) for filename in os.listdir('resources') if
+              filename[-4:] == '.png'}
 
 
 class GameState:
 
     def __init__(self):
         pass
-    
+
     def exit(self):
         pass
 
@@ -54,7 +56,7 @@ class GameEngine:
     game_display = None
     clock = None
     font = None
-	
+
     @staticmethod
     def __init__(width, height, caption):
         GameEngine.states = []
