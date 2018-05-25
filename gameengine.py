@@ -1,3 +1,5 @@
+import os
+
 import pygame
 
 pygame.init()
@@ -11,6 +13,7 @@ class GameEngine:
     font = None
     clock = None
     game_display = None
+    sprite_dict = None
 
     @staticmethod
     def __init__(width, height, caption):
@@ -22,6 +25,8 @@ class GameEngine:
 
         GameEngine.font = pygame.font.Font("resources/vgaoem.fon", 15)
         GameEngine.clock = pygame.time.Clock()
+        GameEngine.sprite_dict = {filename[:-4]: utils.create_image(filename[:-4]) for filename in
+                                  os.listdir('resources') if filename[-4:] == '.png'}
 
         pygame.display.set_mode((GameEngine.display_width, GameEngine.display_height))
         pygame.display.set_caption(caption)
@@ -67,6 +72,14 @@ class GameEngine:
     @staticmethod
     def running():
         return GameEngine.run
+
+    @staticmethod
+    def change_caption(caption):
+        pygame.display.set_caption(caption)
+
+    @staticmethod
+    def change_mode(width, height):
+        pygame.display.set_mode((width, height))
 
     @staticmethod
     def display_data(x, y, data, font, color):
